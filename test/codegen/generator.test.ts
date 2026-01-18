@@ -1,6 +1,7 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { z } from "zod/v4";
 import { generate } from "../../src/codegen/generator";
+import * as mapping from "../../src/mapping";
 
 describe("generate", () => {
   describe("basic functionality", () => {
@@ -249,7 +250,16 @@ describe("generate", () => {
       });
 
       // Optional fields should not have required prop
-      expect(result.code).not.toMatch(/nickname[\s\S]*?required\s*\n\s*error/);
+      // Find the nickname field section and verify it doesn't have required
+      const nicknameFieldStart = result.code.indexOf('name="nickname"');
+      expect(nicknameFieldStart).toBeGreaterThan(-1);
+      const afterNickname = result.code.slice(nicknameFieldStart);
+      const nextFieldIndex = afterNickname.indexOf("<form.Field", 1);
+      const nicknameSection =
+        nextFieldIndex === -1
+          ? afterNickname
+          : afterNickname.slice(0, nextFieldIndex);
+      expect(nicknameSection).not.toMatch(/\srequired(\s|>|\/)/);
     });
 
     it("handles slider for bounded number range", () => {
@@ -295,6 +305,38 @@ describe("generate", () => {
           schemaExportName: "testSchema",
         }),
       ).toThrow("z.object()");
+    });
+
+    it("adds warnings when resolveField throws", () => {
+      const schema = z.object({
+        name: z.string(),
+        broken: z.string(),
+      });
+
+      // Mock resolveField to throw for "broken" field
+      const originalResolveField = mapping.resolveField;
+      vi.spyOn(mapping, "resolveField").mockImplementation((field) => {
+        if (field.name === "broken") {
+          throw new Error("Unsupported field type");
+        }
+        return originalResolveField(field);
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      // Restore mock
+      vi.restoreAllMocks();
+
+      // Should have processed name but not broken
+      expect(result.fields).toEqual(["name"]);
+      expect(result.warnings).toHaveLength(1);
+      expect(result.warnings[0]).toContain("broken");
+      expect(result.warnings[0]).toContain("Unsupported field type");
     });
   });
 
