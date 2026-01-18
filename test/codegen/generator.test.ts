@@ -75,7 +75,7 @@ describe("generate", () => {
         schemaExportName: "testSchema",
       });
 
-      expect(result.code).toContain("from '@rafters/ui'");
+      expect(result.code).toContain("from '@/components/ui'");
     });
 
     it("uses custom UI import path when specified", () => {

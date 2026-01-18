@@ -83,7 +83,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output.startsWith("'use client';")).toBe(true);
@@ -96,7 +96,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("export function UserForm(");
@@ -109,7 +109,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("defaultValues: initialValues");
@@ -123,7 +123,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain('<button type="submit">Submit</button>');
@@ -138,7 +138,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain(
@@ -156,7 +156,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain(
@@ -171,11 +171,11 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("Field,");
-      expect(output).toContain("} from '@rafters/ui';");
+      expect(output).toContain("} from '@/components/ui';");
     });
 
     it("imports only used components", () => {
@@ -189,7 +189,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("Input,");
@@ -208,7 +208,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("RadioGroup,");
@@ -237,7 +237,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("interface ProfileFormProps {");
@@ -253,7 +253,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("defaultValues?: Partial<User>;");
@@ -269,7 +269,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain(
@@ -290,7 +290,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain('name: "",');
@@ -313,7 +313,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("age: 0,");
@@ -342,7 +342,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("priority: 1,");
@@ -365,7 +365,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("active: false,");
@@ -388,7 +388,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("birthDate: undefined,");
@@ -411,7 +411,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain('role: "admin",');
@@ -426,7 +426,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("onSubmit: userSchema,");
@@ -439,7 +439,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("await onSubmit(value);");
@@ -452,7 +452,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain("e.preventDefault();");
@@ -482,7 +482,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain('name="firstName"');
@@ -506,7 +506,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       expect(output).toContain('name="name"');
@@ -567,7 +567,7 @@ describe("generateFormFile", () => {
       const output = generateFormFile({
         form,
         fieldConfigs,
-        uiImportPath: "@rafters/ui",
+        uiImportPath: "@/components/ui",
       });
 
       // Verify structure

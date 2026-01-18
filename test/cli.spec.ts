@@ -114,11 +114,11 @@ describe("CLI", () => {
         "-s",
         "userSchema",
         "--ui",
-        "@/components/ui",
+        "@custom/ui",
       ]);
 
       const content = fs.readFileSync(outputPath, "utf-8");
-      expect(content).toContain("from '@/components/ui'");
+      expect(content).toContain("from '@custom/ui'");
     });
 
     it("shows error for non-existent file", () => {

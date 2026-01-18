@@ -41,7 +41,7 @@ export function generate(options: GenerateOptions): GenerateResult {
     formName,
     schemaImportPath,
     schemaExportName,
-    uiImportPath = "@rafters/ui",
+    uiImportPath = "@/components/ui",
   } = options;
 
   const warnings: string[] = [];
