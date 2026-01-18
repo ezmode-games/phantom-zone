@@ -1,3 +1,6 @@
+// Codegen functions
+export { generateFieldJSX } from "./codegen";
+
 // Introspection types
 export type {
   FieldConstraints,
