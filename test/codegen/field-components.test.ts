@@ -394,7 +394,7 @@ describe("generateFieldJSX", () => {
       expect(jsx).toContain(">Super Admin</Select.Item>");
     });
 
-    it("converts snake_case to Title Case", () => {
+    it("converts snake_case to readable format", () => {
       const field = createField();
       const config = createConfig({
         component: "Select",

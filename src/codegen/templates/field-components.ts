@@ -2,6 +2,28 @@ import type { FieldDescriptor } from "../../introspection";
 import type { ComponentConfig } from "../../mapping";
 
 /**
+ * Escapes a string for use in a JSX attribute value (double-quoted).
+ */
+function escapeJSXAttribute(value: string): string {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/"/g, '\\"')
+    .replace(/\n/g, "\\n");
+}
+
+/**
+ * Escapes a string for use as JSX text content.
+ */
+function escapeJSXText(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\{/g, "&#123;")
+    .replace(/\}/g, "&#125;");
+}
+
+/**
  * Generates the JSX string for a field within form.Field render prop.
  */
 export function generateFieldJSX(
@@ -14,7 +36,7 @@ export function generateFieldJSX(
   const componentJSX = buildComponentJSX(field.name, component, componentProps);
 
   return `<form.Field
-  name="${field.name}"
+  name="${escapeJSXAttribute(field.name)}"
   children={(field) => (
     <Field
 ${fieldPropsStr}
@@ -29,10 +51,12 @@ ${componentJSX}
 function buildFieldProps(fieldProps: ComponentConfig["fieldProps"]): string {
   const lines: string[] = [];
 
-  lines.push(`      label="${fieldProps.label}"`);
+  lines.push(`      label="${escapeJSXAttribute(fieldProps.label)}"`);
 
   if (fieldProps.description) {
-    lines.push(`      description="${fieldProps.description}"`);
+    lines.push(
+      `      description="${escapeJSXAttribute(fieldProps.description)}"`,
+    );
   }
 
   if (fieldProps.required) {
@@ -105,7 +129,7 @@ function buildSelectJSX(props: Record<string, unknown>): string {
   const optionItems = options
     .map(
       (opt) =>
-        `          <Select.Item value="${opt}">${formatOptionLabel(opt)}</Select.Item>`,
+        `          <Select.Item value="${escapeJSXAttribute(opt)}">${escapeJSXText(formatOptionLabel(opt))}</Select.Item>`,
     )
     .join("\n");
 
@@ -128,8 +152,8 @@ function buildRadioGroupJSX(
     .map((opt) => {
       const id = `${fieldName}-${opt}`;
       return `        <div className="flex items-center gap-2">
-          <RadioGroup.Item value="${opt}" id="${id}" />
-          <Label htmlFor="${id}">${formatOptionLabel(opt)}</Label>
+          <RadioGroup.Item value="${escapeJSXAttribute(opt)}" id="${escapeJSXAttribute(id)}" />
+          <Label htmlFor="${escapeJSXAttribute(id)}">${escapeJSXText(formatOptionLabel(opt))}</Label>
         </div>`;
     })
     .join("\n");
@@ -170,7 +194,7 @@ function buildPropsString(
     const value = props[key];
     if (value !== undefined) {
       if (typeof value === "string") {
-        lines.push(`        ${key}="${value}"`);
+        lines.push(`        ${key}="${escapeJSXAttribute(value)}"`);
       } else {
         lines.push(`        ${key}={${JSON.stringify(value)}}`);
       }
@@ -181,7 +205,7 @@ function buildPropsString(
 }
 
 function formatOptionLabel(value: string): string {
-  // Convert camelCase/snake_case to Title Case
+  // Convert camelCase/snake_case to readable format with first letter capitalized
   return value
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .replace(/_/g, " ")
