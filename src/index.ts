@@ -11,3 +11,10 @@ export type {
 
 // Introspection functions
 export { extractConstraints, introspect, unwrapSchema } from "./introspection";
+
+// Mapping types
+export type {
+  ComponentConfig,
+  ComponentType,
+  MappingRule,
+} from "./mapping";
