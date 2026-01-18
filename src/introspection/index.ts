@@ -1,8 +1,7 @@
-// Introspection types
 export type {
   FieldConstraints,
   FieldDescriptor,
   FieldMetadata,
   FieldType,
   FormDescriptor,
-} from "./introspection";
+} from "./types";
