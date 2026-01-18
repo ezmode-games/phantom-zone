@@ -20,4 +20,8 @@ export type {
 } from "./mapping";
 
 // Mapping functions
-export { defaultMappingRules, findMatchingRule } from "./mapping";
+export {
+  defaultMappingRules,
+  findMatchingRule,
+  resolveField,
+} from "./mapping";
