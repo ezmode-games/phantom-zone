@@ -19,7 +19,7 @@ program
   .option("-o, --output <path>", "Output file path")
   .option("-n, --name <name>", "Form component name")
   .option("-s, --schema <name>", "Exported schema name", "schema")
-  .option("--ui <path>", "UI import path", "@rafters/ui")
+  .option("--ui <path>", "UI import path", "@/components/ui")
   .action(async (schemaPath: string, options: GenerateCommandOptions) => {
     try {
       await runGenerate(schemaPath, options);
