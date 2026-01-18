@@ -123,10 +123,7 @@ function deriveOutputPath(schemaPath: string): string {
   const base = path.basename(schemaPath, path.extname(schemaPath));
 
   // Replace -schema or Schema suffix with -form
-  const formBase = base
-    .replace(/-schema$/i, "")
-    .replace(/schema$/i, "")
-    .replace(/Schema$/, "");
+  const formBase = base.replace(/-schema$/i, "").replace(/schema$/i, "");
 
   const finalBase = formBase || base;
   return path.join(dir, `${finalBase}-form.tsx`);
