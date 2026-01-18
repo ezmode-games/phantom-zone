@@ -48,16 +48,6 @@ function nameToLabel(name: string): string {
 }
 
 /**
- * Maps a Zod schema type to a FieldType.
- */
-function getFieldType(type: string): FieldType {
-  if (SUPPORTED_TYPES.includes(type as FieldType)) {
-    return type as FieldType;
-  }
-  throw new Error(`Unsupported field type "${type}"`);
-}
-
-/**
  * Builds FieldMetadata based on the field type.
  */
 function buildMetadata(inner: $ZodType): FieldMetadata {
@@ -102,12 +92,12 @@ export function introspect(
       );
     }
 
-    const fieldType = getFieldType(type);
+    const fieldType = type as FieldType;
     const constraints = extractConstraints(inner);
     const metadata = buildMetadata(inner);
 
-    // Get description from field schema if available
-    const description = (fieldSchema as { description?: string }).description;
+    // Get description from inner schema (describe() is on the unwrapped schema)
+    const description = (inner as { description?: string }).description;
 
     const field: FieldDescriptor = {
       name,

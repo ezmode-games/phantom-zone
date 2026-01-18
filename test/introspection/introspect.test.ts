@@ -200,6 +200,16 @@ describe("introspect", () => {
 
       expect(result.fields[0].description).toBeUndefined();
     });
+
+    it("includes description on optional fields", () => {
+      const schema = z.object({
+        field: z.string().describe("Help text").optional(),
+      });
+      const result = introspect(schema, defaultOptions);
+
+      expect(result.fields[0].description).toBe("Help text");
+      expect(result.fields[0].isOptional).toBe(true);
+    });
   });
 
   describe("full schema test", () => {
