@@ -64,6 +64,14 @@ describe("inferTypeName", () => {
   it("handles name without schema suffix", () => {
     expect(inferTypeName("config")).toBe("Config");
   });
+
+  it("returns Schema as fallback when name is exactly 'schema'", () => {
+    expect(inferTypeName("schema")).toBe("Schema");
+  });
+
+  it("returns Schema as fallback when name is exactly 'Schema'", () => {
+    expect(inferTypeName("Schema")).toBe("Schema");
+  });
 });
 
 describe("generateFormFile", () => {
@@ -92,6 +100,20 @@ describe("generateFormFile", () => {
       });
 
       expect(output).toContain("export function UserForm(");
+    });
+
+    it("renames defaultValues to initialValues to avoid shadowing", () => {
+      const form = createForm({ name: "TestForm" });
+      const fieldConfigs = new Map<string, ComponentConfig>();
+
+      const output = generateFormFile({
+        form,
+        fieldConfigs,
+        uiImportPath: "@rafters/ui",
+      });
+
+      expect(output).toContain("defaultValues: initialValues");
+      expect(output).toContain("defaultValues: initialValues ??");
     });
 
     it("includes submit button", () => {

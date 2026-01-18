@@ -26,9 +26,9 @@ ${imports}
 
 ${propsInterface}
 
-export function ${form.name}({ defaultValues, onSubmit }: ${form.name}Props) {
+export function ${form.name}({ defaultValues: initialValues, onSubmit }: ${form.name}Props) {
   const form = useForm({
-    defaultValues: defaultValues ?? {
+    defaultValues: initialValues ?? {
 ${defaultValues}
     },
     validators: {
@@ -99,9 +99,8 @@ function buildUIImports(usedComponents: Set<ComponentType>): string {
   // Always include Field wrapper
   imports.push("  Field,");
 
-  // Add used components in alphabetical order
-  const sortedComponents = [...usedComponents].sort();
-  for (const component of sortedComponents) {
+  // Add used components
+  for (const component of usedComponents) {
     imports.push(`  ${component},`);
   }
 
@@ -110,7 +109,7 @@ function buildUIImports(usedComponents: Set<ComponentType>): string {
     imports.push("  Label,");
   }
 
-  // Sort all imports alphabetically
+  // Sort all imports alphabetically for consistent output
   return imports.sort().join("\n");
 }
 
@@ -120,12 +119,16 @@ function buildUIImports(usedComponents: Set<ComponentType>): string {
  * profileSchema -> Profile
  */
 function inferTypeName(schemaExportName: string): string {
-  // Remove 'Schema' or 'schema' suffix and capitalize first letter
-  const base = schemaExportName
-    .replace(/Schema$/i, "")
-    .replace(/^./, (s) => s.toUpperCase());
+  // Remove 'Schema' or 'schema' suffix
+  const stripped = schemaExportName.replace(/Schema$/i, "");
 
-  return base;
+  // If nothing remains after stripping, fall back to a safe default
+  if (stripped.trim().length === 0) {
+    return "Schema";
+  }
+
+  // Capitalize first letter of the remaining base
+  return stripped.replace(/^./, (s) => s.toUpperCase());
 }
 
 function generatePropsInterface(formName: string, typeName: string): string {
@@ -170,10 +173,12 @@ function getDefaultValueForField(
     case "enum": {
       // Use first enum value
       if (field.metadata.kind === "enum" && field.metadata.values.length > 0) {
-        return `"${field.metadata.values[0]}"`;
+        return JSON.stringify(field.metadata.values[0]);
       }
       return '""';
     }
+    default:
+      return "undefined";
   }
 }
 
