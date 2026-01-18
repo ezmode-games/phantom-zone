@@ -1,0 +1,342 @@
+import { describe, expect, it } from "vitest";
+import { z } from "zod/v4";
+import { generate } from "../../src/codegen/generator";
+
+describe("generate", () => {
+  describe("basic functionality", () => {
+    it("generates form code from simple schema", () => {
+      const schema = z.object({
+        name: z.string(),
+        email: z.string().email(),
+        active: z.boolean(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("'use client'");
+      expect(result.code).toContain("export function TestForm");
+      expect(result.code).toContain("form.Field");
+      expect(result.code).toContain('name="name"');
+      expect(result.code).toContain('name="email"');
+      expect(result.code).toContain('name="active"');
+      expect(result.fields).toEqual(["name", "email", "active"]);
+      expect(result.warnings).toEqual([]);
+    });
+
+    it("returns list of processed fields", () => {
+      const schema = z.object({
+        firstName: z.string(),
+        lastName: z.string(),
+        age: z.number(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "UserForm",
+        schemaImportPath: "./user",
+        schemaExportName: "userSchema",
+      });
+
+      expect(result.fields).toEqual(["firstName", "lastName", "age"]);
+    });
+
+    it("returns empty warnings when all fields are valid", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "SimpleForm",
+        schemaImportPath: "./simple",
+        schemaExportName: "simpleSchema",
+      });
+
+      expect(result.warnings).toEqual([]);
+    });
+  });
+
+  describe("options", () => {
+    it("uses default UI import path when not specified", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("from '@rafters/ui'");
+    });
+
+    it("uses custom UI import path when specified", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+        uiImportPath: "@/components/ui",
+      });
+
+      expect(result.code).toContain("from '@/components/ui'");
+    });
+
+    it("uses provided form name", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "CustomFormName",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("export function CustomFormName");
+      expect(result.code).toContain("interface CustomFormNameProps");
+    });
+
+    it("uses provided schema import path and export name", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "@/schemas/user",
+        schemaExportName: "userProfileSchema",
+      });
+
+      expect(result.code).toContain("from '@/schemas/user'");
+      expect(result.code).toContain("userProfileSchema");
+      expect(result.code).toContain("type UserProfile");
+    });
+  });
+
+  describe("field type handling", () => {
+    it("handles string fields", () => {
+      const schema = z.object({
+        name: z.string(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Input");
+      expect(result.code).toContain('type="text"');
+    });
+
+    it("handles email fields", () => {
+      const schema = z.object({
+        email: z.string().email(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Input");
+      expect(result.code).toContain('type="email"');
+    });
+
+    it("handles number fields", () => {
+      const schema = z.object({
+        age: z.number(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Input");
+      expect(result.code).toContain('type="number"');
+    });
+
+    it("handles boolean fields", () => {
+      const schema = z.object({
+        active: z.boolean(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Checkbox");
+    });
+
+    it("handles enum fields with few options as RadioGroup", () => {
+      const schema = z.object({
+        role: z.enum(["admin", "user"]),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<RadioGroup");
+    });
+
+    it("handles enum fields with many options as Select", () => {
+      const schema = z.object({
+        country: z.enum(["us", "uk", "ca", "au", "nz"]),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Select");
+    });
+
+    it("handles date fields", () => {
+      const schema = z.object({
+        birthDate: z.date(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<DatePicker");
+    });
+
+    it("handles optional fields", () => {
+      const schema = z.object({
+        nickname: z.string().optional(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      // Optional fields should not have required prop
+      expect(result.code).not.toMatch(/nickname[\s\S]*?required\s*\n\s*error/);
+    });
+
+    it("handles slider for bounded number range", () => {
+      const schema = z.object({
+        priority: z.number().min(1).max(10),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Slider");
+    });
+
+    it("handles textarea for long text", () => {
+      const schema = z.object({
+        bio: z.string().max(500),
+      });
+
+      const result = generate({
+        schema,
+        formName: "TestForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "testSchema",
+      });
+
+      expect(result.code).toContain("<Textarea");
+    });
+  });
+
+  describe("error handling", () => {
+    it("throws for non-object schemas", () => {
+      const schema = z.string();
+
+      expect(() =>
+        generate({
+          schema,
+          formName: "TestForm",
+          schemaImportPath: "./schema",
+          schemaExportName: "testSchema",
+        }),
+      ).toThrow("z.object()");
+    });
+  });
+
+  describe("complete form", () => {
+    it("generates complete form with multiple field types", () => {
+      const schema = z.object({
+        firstName: z.string().min(1),
+        lastName: z.string().min(1),
+        email: z.string().email(),
+        age: z.number().min(0).max(150).optional(),
+        role: z.enum(["admin", "user", "guest"]),
+        newsletter: z.boolean(),
+        birthDate: z.date().optional(),
+      });
+
+      const result = generate({
+        schema,
+        formName: "UserForm",
+        schemaImportPath: "./schema",
+        schemaExportName: "userSchema",
+      });
+
+      // Check all fields are present
+      expect(result.fields).toHaveLength(7);
+      expect(result.fields).toContain("firstName");
+      expect(result.fields).toContain("lastName");
+      expect(result.fields).toContain("email");
+      expect(result.fields).toContain("age");
+      expect(result.fields).toContain("role");
+      expect(result.fields).toContain("newsletter");
+      expect(result.fields).toContain("birthDate");
+
+      // Check structure
+      expect(result.code).toContain("'use client'");
+      expect(result.code).toContain("import { useForm }");
+      expect(result.code).toContain("import { userSchema, type User }");
+      expect(result.code).toContain("export function UserForm");
+      expect(result.code).toContain("onSubmit: userSchema");
+      expect(result.code).toContain('<button type="submit">Submit</button>');
+
+      // No warnings
+      expect(result.warnings).toEqual([]);
+    });
+  });
+});

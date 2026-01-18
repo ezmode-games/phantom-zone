@@ -1,8 +1,17 @@
 // Codegen types
-export type { FormTemplateInput } from "./codegen";
+export type {
+  FormTemplateInput,
+  GenerateOptions,
+  GenerateResult,
+} from "./codegen";
 
 // Codegen functions
-export { generateFieldJSX, generateFormFile, inferTypeName } from "./codegen";
+export {
+  generate,
+  generateFieldJSX,
+  generateFormFile,
+  inferTypeName,
+} from "./codegen";
 
 // Introspection types
 export type {
