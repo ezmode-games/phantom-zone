@@ -69,19 +69,19 @@ describe("unwrapSchema", () => {
 
   it("throws for non-Zod4 schema (null)", () => {
     expect(() => unwrapSchema(null as unknown as z.ZodType)).toThrow(
-      "Schema is not a Zod 4 schema",
+      "Schema is not a valid Zod 4 schema",
     );
   });
 
   it("throws for non-Zod4 schema (plain object)", () => {
     expect(() => unwrapSchema({} as unknown as z.ZodType)).toThrow(
-      "Schema is not a Zod 4 schema",
+      "Schema is not a valid Zod 4 schema",
     );
   });
 
   it("throws for non-Zod4 schema (undefined)", () => {
     expect(() => unwrapSchema(undefined as unknown as z.ZodType)).toThrow(
-      "Schema is not a Zod 4 schema",
+      "Schema is not a valid Zod 4 schema",
     );
   });
 
@@ -113,14 +113,14 @@ describe("unwrapSchema", () => {
   it("throws for malformed schema with _zod but no def", () => {
     const malformed = { _zod: {} } as unknown as z.ZodType;
     expect(() => unwrapSchema(malformed)).toThrow(
-      "Schema is not a Zod 4 schema",
+      "Schema is not a valid Zod 4 schema",
     );
   });
 
   it("throws for malformed schema with _zod.def but no type", () => {
     const malformed = { _zod: { def: {} } } as unknown as z.ZodType;
     expect(() => unwrapSchema(malformed)).toThrow(
-      "Schema is not a Zod 4 schema",
+      "Schema is not a valid Zod 4 schema",
     );
   });
 });

@@ -19,6 +19,9 @@ interface ZodCheck {
 /**
  * Extracts validation constraints from a Zod schema's checks array.
  * Must be called on unwrapped schema (not optional wrapper).
+ *
+ * If called on an optional wrapper schema, this function will simply return
+ * an empty object, because optional wrappers themselves do not carry checks.
  */
 export function extractConstraints(schema: $ZodType): FieldConstraints {
   const def = schema._zod.def as {

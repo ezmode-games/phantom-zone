@@ -22,6 +22,18 @@ describe("extractConstraints", () => {
       expect(constraints).toEqual({ format: "uuid" });
     });
 
+    it("extracts cuid format", () => {
+      const schema = z.string().cuid();
+      const constraints = extractConstraints(schema);
+      expect(constraints).toEqual({ format: "cuid" });
+    });
+
+    it("extracts datetime format", () => {
+      const schema = z.string().datetime();
+      const constraints = extractConstraints(schema);
+      expect(constraints).toEqual({ format: "datetime" });
+    });
+
     it("extracts minLength and maxLength", () => {
       const schema = z.string().min(5).max(100);
       const constraints = extractConstraints(schema);
