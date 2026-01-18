@@ -46,9 +46,7 @@ function isValidZod4Schema(schema: unknown): schema is $ZodType {
 export function unwrapSchema(schema: $ZodType): UnwrapResult {
   // Validate that this is a Zod 4 schema
   if (!isValidZod4Schema(schema)) {
-    throw new Error(
-      "Schema is not a valid Zod 4 schema. Ensure you are using Zod version 4.0.0 or higher.",
-    );
+    throw new Error("Schema is not a valid Zod 4 schema");
   }
 
   let current = schema;
