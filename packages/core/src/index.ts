@@ -250,3 +250,80 @@ export type {
   UseFormSubmitOptions,
   UseFormSubmitReturn,
 } from "./hooks";
+
+// Accessibility Utilities (PZ-006)
+export {
+  // ID generation utilities
+  createAccessibleId,
+  createFieldAccessibilityIds,
+  joinIds,
+  sanitizeIdPart,
+  resetIdCounter,
+  getIdCounter,
+  // Focus management utilities
+  FOCUSABLE_SELECTOR,
+  TABBABLE_SELECTOR,
+  isFocusable,
+  isVisible,
+  getFocusableElements,
+  getFirstFocusableElement,
+  getLastFocusableElement,
+  focusElement,
+  focusFirstInvalidElement,
+  focusById,
+  focusByName,
+  saveFocus,
+  restoreFocus,
+  createFocusTrap,
+  // Keyboard navigation utilities
+  Keys,
+  isActivationKey,
+  isArrowKey,
+  isEscapeKey,
+  getNavigationDirection,
+  calculateNextIndex,
+  createListKeyHandler,
+  createRovingTabindexState,
+  getRovingTabindex,
+  matchesShortcut,
+  preventDefaultForKeys,
+  // Live region announcements
+  announce,
+  announceAssertive,
+  announcePolite,
+  clearAnnouncements,
+  cleanupLiveRegions,
+  FormAnnouncements,
+  // Color contrast utilities
+  ContrastThresholds,
+  parseHexColor,
+  calculateLuminance,
+  calculateContrastRatio,
+  checkContrast,
+  formatContrastRatio,
+  getMinimumContrast,
+  suggestTextColor,
+  // Screen reader-only styles
+  SCREEN_READER_ONLY_STYLES,
+} from "./accessibility";
+
+export type {
+  // Accessibility types
+  AccessibleInputProps,
+  AnnounceOptions,
+  AriaErrorProps,
+  AriaExpandedProps,
+  AriaFormRole,
+  AriaInteractiveProps,
+  AriaLabelProps,
+  AriaLive,
+  AriaSelectedProps,
+  ContrastResult,
+  CreateAccessibleIdOptions,
+  FieldAccessibilityIds,
+  FocusOptions as A11yFocusOptions,
+  KeyboardNavigationOptions,
+  KeyName,
+  RovingTabindexState,
+  ScreenReaderOnlyStyles,
+} from "./accessibility";
