@@ -64,7 +64,16 @@ export class R2Client {
     const keyValidation = this.validateKey(key);
     if (!keyValidation.ok) return keyValidation;
 
-    const body = JSON.stringify(value);
+    // Serialize value to JSON - catch serialization errors (circular refs, BigInt, etc.)
+    let body: string;
+    try {
+      body = JSON.stringify(value);
+    } catch (cause) {
+      return err(
+        createError("SERIALIZATION_ERROR", `Failed to serialize value for key: ${key}`, cause),
+      );
+    }
+
     const httpMetadata = this.buildHttpMetadata(options?.metadata);
     const customMetadata = options?.metadata?.customMetadata;
 

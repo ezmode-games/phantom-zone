@@ -27,6 +27,7 @@ export type R2StorageErrorCode =
   | "NETWORK_ERROR"
   | "PARSE_ERROR"
   | "VALIDATION_ERROR"
+  | "SERIALIZATION_ERROR"
   | "UNKNOWN";
 
 export interface R2StorageError {

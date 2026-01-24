@@ -252,6 +252,32 @@ describe("R2Client", () => {
         expect(result.error.message).toContain("1024");
       }
     });
+
+    it("returns SERIALIZATION_ERROR for circular references", async () => {
+      const circular: Record<string, unknown> = { name: "test" };
+      circular.self = circular; // Creates circular reference
+
+      const result = await client.put("circular", circular);
+
+      expect(result.ok).toBe(false);
+      if (!result.ok) {
+        expect(result.error.code).toBe("SERIALIZATION_ERROR");
+        expect(result.error.message).toContain("serialize");
+        expect(result.error.retryable).toBe(false);
+      }
+    });
+
+    it("returns SERIALIZATION_ERROR for BigInt values", async () => {
+      const withBigInt = { value: BigInt(9007199254740991) };
+
+      const result = await client.put("bigint", withBigInt);
+
+      expect(result.ok).toBe(false);
+      if (!result.ok) {
+        expect(result.error.code).toBe("SERIALIZATION_ERROR");
+        expect(result.error.retryable).toBe(false);
+      }
+    });
   });
 
   describe("putRaw", () => {
