@@ -189,6 +189,8 @@ export class ResponseStorageService {
    * Note: R2 doesn't support efficient filtering by custom metadata during list operations.
    * For production systems with many responses, consider using a separate index in D1.
    *
+   * Uses key-based pagination with startAfter for consistent cursor behavior.
+   *
    * @param guildId - The guild ID
    * @param formId - The form ID
    * @param options - List options including pagination and filters
@@ -201,10 +203,10 @@ export class ResponseStorageService {
     const prefix = this.buildListPrefix(guildId, formId);
     const limit = options?.limit ?? 50;
 
-    // List objects from R2
+    // List objects from R2 using startAfter for key-based pagination
     const listResult = await this.client.list({
       prefix,
-      cursor: options?.cursor,
+      startAfter: options?.cursor,
       // Request more than needed if filtering, to account for filtered items
       limit: options?.status ? limit * 3 : limit + 1,
     });
@@ -217,8 +219,11 @@ export class ResponseStorageService {
     const items: FormResponse[] = [];
     let hasMore = false;
     let nextCursor: string | undefined;
+    let lastProcessedKey: string | undefined;
 
     for (const obj of listResult.value.objects) {
+      lastProcessedKey = obj.key;
+
       // If filtering by status, check metadata first
       if (options?.status) {
         const metadata = obj.customMetadata;
@@ -227,10 +232,14 @@ export class ResponseStorageService {
         }
       }
 
-      // We have enough items
+      // We have enough items - use the current key as cursor for next page
       if (items.length >= limit) {
         hasMore = true;
-        nextCursor = obj.key;
+        // Use the last successfully added item's key as cursor
+        const lastItem = items[items.length - 1];
+        nextCursor = lastItem
+          ? this.buildKey(guildId, formId, lastItem.id)
+          : lastProcessedKey;
         break;
       }
 
@@ -245,9 +254,9 @@ export class ResponseStorageService {
     }
 
     // If we got a truncated result and haven't filled items yet, there might be more
-    if (!hasMore && listResult.value.truncated) {
+    if (!hasMore && listResult.value.truncated && lastProcessedKey) {
       hasMore = true;
-      nextCursor = listResult.value.cursor;
+      nextCursor = lastProcessedKey;
     }
 
     return ok({

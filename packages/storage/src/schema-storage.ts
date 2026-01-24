@@ -230,7 +230,9 @@ export class SchemaStorageService {
   /**
    * Store a new version of a schema.
    *
-   * Automatically increments the version number.
+   * Automatically increments the version number with retry logic to handle
+   * concurrent writes. Uses optimistic concurrency - if another write claims
+   * the version first, this will retry with the next version.
    *
    * @param guildId - The guild identifier
    * @param formId - The form identifier
@@ -257,49 +259,94 @@ export class SchemaStorageService {
       return serializeResult;
     }
 
-    // Get the next version number
-    const versionResult = await this.getCurrentVersionNumber(guildId, formId);
-    if (!versionResult.ok) {
-      return versionResult;
-    }
+    // Retry loop for concurrent write handling
+    const maxRetries = 5;
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+      // Get the next version number
+      const versionResult = await this.getCurrentVersionNumber(guildId, formId);
+      if (!versionResult.ok) {
+        return versionResult;
+      }
 
-    const nextVersion = versionResult.value + 1;
-    const key = this.buildSchemaPath(guildId, formId, nextVersion);
-    const createdAt = new Date();
+      const nextVersion = versionResult.value + 1;
+      const key = this.buildSchemaPath(guildId, formId, nextVersion);
+      const createdAt = new Date();
 
-    // Build the stored schema object
-    const storedSchema: StoredSchema = {
-      metadata: {
-        guildId,
-        formId,
-        version: nextVersion,
-        createdAt,
-        description,
-      },
-      schema: serializeResult.value,
-    };
+      // Check if version already exists (someone else claimed it)
+      const existsResult = await this.client.exists(key);
+      if (!existsResult.ok) {
+        return err(wrapR2Error(existsResult.error));
+      }
+      if (existsResult.value) {
+        // Version was claimed by another writer, retry with next version
+        continue;
+      }
 
-    // Store in R2
-    const putResult = await this.client.put(key, storedSchema, {
-      metadata: {
-        contentType: "application/json",
-        customMetadata: {
+      // Build the stored schema object
+      const storedSchema: StoredSchema = {
+        metadata: {
           guildId,
           formId,
-          version: String(nextVersion),
+          version: nextVersion,
+          createdAt,
+          description,
         },
-      },
-    });
+        schema: serializeResult.value,
+      };
 
-    if (!putResult.ok) {
-      return err(wrapR2Error(putResult.error));
+      // Store in R2
+      const putResult = await this.client.put(key, storedSchema, {
+        metadata: {
+          contentType: "application/json",
+          customMetadata: {
+            guildId,
+            formId,
+            version: String(nextVersion),
+          },
+        },
+      });
+
+      if (!putResult.ok) {
+        return err(wrapR2Error(putResult.error));
+      }
+
+      // Verify we won the race by checking the stored data matches ours
+      const verifyResult = await this.client.getValidated(key, StoredSchemaSchema);
+      if (!verifyResult.ok) {
+        return err(wrapR2Error(verifyResult.error));
+      }
+
+      if (verifyResult.value === null) {
+        // Extremely rare: object was deleted between put and get
+        continue;
+      }
+
+      const storedMetadata = verifyResult.value.value.metadata;
+      // Compare timestamps to verify we're the one who wrote it
+      // Use string comparison since Date serialization may differ
+      if (
+        storedMetadata.guildId === guildId &&
+        storedMetadata.formId === formId &&
+        storedMetadata.version === nextVersion &&
+        storedMetadata.description === description
+      ) {
+        // Success - we wrote this version
+        return ok({
+          version: nextVersion,
+          key,
+          createdAt,
+        });
+      }
+
+      // Another writer got there first with different data, retry
     }
 
-    return ok({
-      version: nextVersion,
-      key,
-      createdAt,
-    });
+    return err(
+      createSchemaError(
+        "BUCKET_ERROR",
+        `Failed to store schema after ${maxRetries} attempts due to concurrent writes`,
+      ),
+    );
   }
 
   /**
