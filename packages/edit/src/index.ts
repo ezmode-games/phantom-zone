@@ -182,6 +182,85 @@ export {
   videoComponentBlockDefinition,
 } from "./registry";
 
+// Block Selection & Focus (PZ-207)
+export {
+  // Types
+  type ClickAction,
+  type FocusDirection,
+  type FocusState,
+  type KeyboardAction,
+  type KeyboardConfig,
+  type MultiSelectionState,
+  type SelectionError,
+  type SelectionErrorCode,
+  type SelectionFocusState,
+  type SelectionMode,
+  type SelectionResult,
+  // Schemas
+  FocusStateSchema,
+  MultiSelectionStateSchema,
+  SelectionFocusStateSchema,
+  // State factories
+  createInitialFocus,
+  createInitialMultiSelection,
+  createInitialSelectionFocus,
+  createSelectionError,
+  // State atoms
+  $focus,
+  $multiSelection,
+  // Computed - Selection
+  $anchorBlock,
+  $hasMultiSelection,
+  $hasSelection,
+  $lastSelectedBlock,
+  $selectedBlocks,
+  $selectedIds,
+  $selectionCount,
+  // Computed - Focus
+  $focusedBlock,
+  $focusedBlockId,
+  $isEditing,
+  // State utilities
+  getBlockAtFlatIndex,
+  getBlockFlatIndex,
+  getBlockRange,
+  getFirstBlockId,
+  getFlatBlockList,
+  getLastBlockId,
+  getNextBlockId,
+  getPrevBlockId,
+  isBlockFocused,
+  isBlockSelected,
+  resetSelectionState,
+  // Selection actions
+  clearSelection,
+  deselectBlock,
+  selectAll,
+  selectBlock as selectBlockMulti,
+  selectRange,
+  toggleSelection,
+  // Focus actions
+  clearFocus,
+  enterEditMode,
+  escape,
+  exitEditMode,
+  extendSelectionDown,
+  extendSelectionUp,
+  focusBlock,
+  focusDirection,
+  focusNext,
+  focusPrev,
+  selectFocused,
+  toggleFocused,
+  // Keyboard handling
+  createKeyboardHandler,
+  defaultKeyboardConfig,
+  executeKeyboardAction,
+  handleKeyboardEvent,
+  parseKeyboardEvent,
+  shouldHandleKeyboardEvent,
+} from "./selection";
+
 // Placeholder - to be implemented in Phase 2
 export function BlockEditor(): never {
   throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
