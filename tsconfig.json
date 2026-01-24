@@ -1,15 +1,23 @@
 {
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2022",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "declaration": true,
-    "outDir": "./dist",
-    "rootDir": "./src"
+    "baseUrl": ".",
+    "paths": {
+      "@phantom-zone/codegen": ["packages/codegen/src"],
+      "@phantom-zone/core": ["packages/core/src"],
+      "@phantom-zone/ui": ["packages/ui/src"],
+      "@phantom-zone/edit": ["packages/edit/src"],
+      "@phantom-zone/storage": ["packages/storage/src"]
+    }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "test"]
+  "references": [
+    { "path": "packages/codegen" },
+    { "path": "packages/core" },
+    { "path": "packages/ui" },
+    { "path": "packages/edit" },
+    { "path": "packages/storage" },
+    { "path": "apps/dashboard" }
+  ],
+  "include": [],
+  "exclude": ["node_modules", "dist"]
 }

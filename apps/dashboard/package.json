@@ -1,0 +1,26 @@
+{
+  "name": "@phantom-zone/dashboard",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Admin dashboard for form and content management",
+  "type": "module",
+  "scripts": {
+    "build": "echo 'Dashboard build - not yet implemented'",
+    "dev": "echo 'Dashboard dev - not yet implemented'",
+    "typecheck": "tsc --noEmit",
+    "test": "true",
+    "test:unit": "true",
+    "test:all": "true"
+  },
+  "dependencies": {
+    "@phantom-zone/core": "workspace:*",
+    "@phantom-zone/ui": "workspace:*",
+    "@phantom-zone/edit": "workspace:*",
+    "@phantom-zone/storage": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "react": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}
