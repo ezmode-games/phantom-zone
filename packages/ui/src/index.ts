@@ -45,6 +45,39 @@ export type {
   CanvasAction,
 } from "./designer";
 
+// Schema Export/Import (PZ-105)
+export {
+  ExportImport,
+  useExportImport,
+  // Export functions
+  exportSchema,
+  serializeSchema,
+  downloadSchema,
+  // Import/validation functions
+  validateSchema,
+  schemaToCanvasState,
+  // Version utilities
+  compareVersions,
+  isVersionSupported,
+  // Schemas
+  ExportMetadataSchema,
+  ExportedFormSchema,
+  ExportableSchemaSchema,
+  // Constants
+  SCHEMA_VERSION,
+  MIN_SUPPORTED_VERSION,
+} from "./designer";
+
+export type {
+  ExportImportProps,
+  ExportableSchema,
+  ExportMetadata,
+  SchemaValidationResult,
+  SchemaValidationError,
+  SchemaImportEvent,
+  SchemaImportErrorEvent,
+} from "./designer";
+
 // Placeholder - full designer to be completed in Phase 2
 export function FormDesigner(): never {
   throw new Error("Not implemented - see PZ-100: https://github.com/ezmode-games/phantom-zone/issues/34");
