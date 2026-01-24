@@ -126,9 +126,9 @@ export function evaluateCondition(
       return false;
 
     default: {
-      // Exhaustive check
+      // Exhaustive check - ensures all ComparisonOperator variants are handled
       const _exhaustive: never = condition.operator;
-      return false;
+      throw new Error(`Unsupported comparison operator: ${String(_exhaustive)}`);
     }
   }
 }
