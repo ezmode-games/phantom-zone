@@ -4,6 +4,7 @@
  * Form runtime components including:
  * - Input registry (PZ-001)
  * - Validation rule registry (PZ-001b)
+ * - Rule composition engine (PZ-102b)
  * - Layout engine (PZ-003)
  * - Error display (PZ-004)
  * - State persistence (PZ-005)
@@ -327,3 +328,32 @@ export type {
   RovingTabindexState,
   ScreenReaderOnlyStyles,
 } from "./accessibility";
+
+// Rule Composition Engine (PZ-102b)
+export {
+  // Main composition functions
+  composeRules,
+  detectConflicts,
+  validateRuleConfig,
+  generateZodCode,
+  // Result helpers
+  INPUT_TYPE_TO_ZOD_BASE,
+  success,
+  failure,
+  isSuccess,
+  isFailure,
+} from "./composer";
+
+export type {
+  // Composer types (AppliedRule is re-exported - same as registry's AppliedRule)
+  AppliedRule as ComposerAppliedRule,
+  ComposedSchema,
+  CompositionError,
+  CompositionErrorCode,
+  CompositionResult,
+  ComposeRulesOptions,
+  ConflictInfo,
+  ConflictType,
+  GenerateZodCodeOptions,
+  ValidatedRuleConfig,
+} from "./composer";
