@@ -11,15 +11,59 @@
 
 export const VERSION = "0.0.1";
 
-// Placeholder types - to be implemented in Phase 1
-export interface R2StorageClient {
-  get(key: string): Promise<unknown>;
-  put(key: string, value: unknown): Promise<void>;
-  delete(key: string): Promise<void>;
-  list(prefix?: string): Promise<string[]>;
+// R2 Client (PZ-300)
+export { R2Client, createR2Client } from "./r2-client";
+
+// Types
+export type {
+  // Result type
+  Result,
+  // Error types
+  R2StorageError,
+  R2StorageErrorCode,
+  // Metadata
+  StorageMetadata,
+  // Options
+  PutOptions,
+  GetOptions,
+  ListOptions,
+  RangeOptions,
+  // Results
+  StoredObject,
+  StoredObjectInfo,
+  ListResult,
+  PutResult,
+  StreamResult,
+  // Config
+  RetryConfig,
+  R2ClientConfig,
+} from "./types";
+
+// Type utilities
+export { ok, err, createError, DEFAULT_RETRY_CONFIG, StorageMetadataSchema } from "./types";
+
+// Placeholder types for future services (PZ-301 through PZ-304)
+// These will be implemented in subsequent issues
+
+export interface SchemaStorageService {
+  saveSchema(formId: string, schema: unknown): Promise<void>;
+  getSchema(formId: string): Promise<unknown>;
+  listSchemas(): Promise<string[]>;
 }
 
-// Placeholder - to be implemented in PZ-300
-export function createR2Client(_bucket: R2Bucket): never {
-  throw new Error("Not implemented - see PZ-300: https://github.com/ezmode-games/phantom-zone/issues/31");
+export interface ContentStorageService {
+  saveContent(formId: string, content: unknown): Promise<void>;
+  getContent(formId: string): Promise<unknown>;
+}
+
+export interface ResponseStorageService {
+  saveResponse(formId: string, responseId: string, data: unknown): Promise<void>;
+  getResponse(formId: string, responseId: string): Promise<unknown>;
+  listResponses(formId: string): Promise<string[]>;
+}
+
+export interface AssetStorageService {
+  uploadAsset(formId: string, file: Blob): Promise<string>;
+  getAsset(formId: string, assetId: string): Promise<Blob | null>;
+  deleteAsset(formId: string, assetId: string): Promise<void>;
 }
