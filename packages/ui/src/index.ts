@@ -18,7 +18,34 @@
 
 export const VERSION = "0.0.1";
 
-// Placeholder - to be implemented in Phase 2
+// Designer Canvas (PZ-100)
+export {
+  // Canvas component and hook
+  FormCanvas,
+  useFormCanvas,
+  // Factory functions
+  createEmptyCanvasState,
+  createField,
+  generateUUIDv7,
+  // State management
+  canvasReducer,
+  // Schemas for runtime validation
+  AppliedValidationRuleSchema,
+  FieldOptionSchema,
+  CanvasFieldSchema,
+  CanvasStateSchema,
+} from "./designer";
+
+export type {
+  FormCanvasProps,
+  AppliedValidationRule,
+  FieldOption,
+  CanvasField,
+  CanvasState,
+  CanvasAction,
+} from "./designer";
+
+// Placeholder - full designer to be completed in Phase 2
 export function FormDesigner(): never {
   throw new Error("Not implemented - see PZ-100: https://github.com/ezmode-games/phantom-zone/issues/34");
 }
