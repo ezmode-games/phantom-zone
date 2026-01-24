@@ -61,6 +61,15 @@ importers:
         specifier: ^12.0.0
         version: 12.1.0
     devDependencies:
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@25.0.9)
       zocker:
         specifier: ^3.0.0
         version: 3.0.0(zod@4.3.6)
@@ -76,6 +85,15 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.3
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@25.0.9)
       zod:
         specifier: ^4.0.0
         version: 4.3.6
@@ -92,16 +110,33 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.3
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@25.0.9)
 
   packages/storage:
-    dependencies:
-      zod:
-        specifier: ^4.0.0
-        version: 4.3.6
     devDependencies:
       '@cloudflare/workers-types':
         specifier: ^4.0.0
         version: 4.20260124.0
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@25.0.9)
+      zod:
+        specifier: ^4.0.0
+        version: 4.3.6
 
   packages/ui:
     dependencies:
@@ -115,6 +150,15 @@ importers:
       react:
         specifier: ^19.0.0
         version: 19.2.3
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.6)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.5.0
+        version: 5.9.3
+      vitest:
+        specifier: ^2.0.0
+        version: 2.1.9(@types/node@25.0.9)
 
 packages:
 

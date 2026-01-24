@@ -20,6 +20,6 @@ export interface R2StorageClient {
 }
 
 // Placeholder - to be implemented in PZ-300
-export function createR2Client(_bucket: R2Bucket): R2StorageClient {
-  throw new Error("Not implemented - see PZ-300");
+export function createR2Client(_bucket: R2Bucket): never {
+  throw new Error("Not implemented - see PZ-300: https://github.com/ezmode-games/phantom-zone/issues/31");
 }

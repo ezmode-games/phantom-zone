@@ -26,6 +26,6 @@
 export const VERSION = "0.0.1";
 
 // Placeholder - to be implemented in Phase 2
-export function BlockEditor(): null {
-  throw new Error("Not implemented - see PZ-200");
+export function BlockEditor(): never {
+  throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
 }

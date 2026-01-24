@@ -22,6 +22,6 @@ export interface InputRegistryEntry {
 }
 
 // Will be implemented in PZ-001
-export function registerInput(_entry: InputRegistryEntry): void {
-  throw new Error("Not implemented - see PZ-001");
+export function registerInput(_entry: InputRegistryEntry): never {
+  throw new Error("Not implemented - see PZ-001: https://github.com/ezmode-games/phantom-zone/issues/26");
 }
