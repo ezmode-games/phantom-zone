@@ -169,6 +169,17 @@ export class ResponseStorageService {
     formId: string,
     responseId: string,
   ): Promise<Result<FormResponse | null>> {
+    // Validate required parameters
+    if (!guildId || guildId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Guild ID is required"));
+    }
+    if (!formId || formId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Form ID is required"));
+    }
+    if (!responseId || responseId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Response ID is required"));
+    }
+
     const key = this.buildKey(guildId, formId, responseId);
 
     const result = await this.client.getValidated(key, FormResponseSchema);
@@ -200,6 +211,14 @@ export class ResponseStorageService {
     formId: string,
     options?: ResponseListOptions,
   ): Promise<Result<ResponseListResult>> {
+    // Validate required parameters
+    if (!guildId || guildId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Guild ID is required"));
+    }
+    if (!formId || formId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Form ID is required"));
+    }
+
     const prefix = this.buildListPrefix(guildId, formId);
     const limit = options?.limit ?? 50;
 
@@ -339,6 +358,17 @@ export class ResponseStorageService {
     formId: string,
     responseId: string,
   ): Promise<Result<void>> {
+    // Validate required parameters
+    if (!guildId || guildId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Guild ID is required"));
+    }
+    if (!formId || formId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Form ID is required"));
+    }
+    if (!responseId || responseId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Response ID is required"));
+    }
+
     const key = this.buildKey(guildId, formId, responseId);
     return this.client.delete(key);
   }
@@ -355,6 +385,17 @@ export class ResponseStorageService {
     formId: string,
     responseId: string,
   ): Promise<Result<boolean>> {
+    // Validate required parameters
+    if (!guildId || guildId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Guild ID is required"));
+    }
+    if (!formId || formId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Form ID is required"));
+    }
+    if (!responseId || responseId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Response ID is required"));
+    }
+
     const key = this.buildKey(guildId, formId, responseId);
     return this.client.exists(key);
   }
@@ -374,6 +415,14 @@ export class ResponseStorageService {
     formId: string,
     status?: ResponseStatus,
   ): Promise<Result<number>> {
+    // Validate required parameters
+    if (!guildId || guildId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Guild ID is required"));
+    }
+    if (!formId || formId.trim() === "") {
+      return err(createError("VALIDATION_ERROR", "Form ID is required"));
+    }
+
     const prefix = this.buildListPrefix(guildId, formId);
 
     const listResult = await this.client.listAll(prefix);
