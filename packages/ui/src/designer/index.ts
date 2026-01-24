@@ -114,6 +114,46 @@ export type {
   SchemaImportErrorEvent,
 } from "./ExportImport";
 
+// Form Templates component and utilities (PZ-106)
+export {
+  TemplateSelector,
+  useTemplateSelector,
+  // Built-in templates
+  generalApplicationTemplate,
+  raidRecruitmentTemplate,
+  casualJoinTemplate,
+  builtInTemplates,
+  getBuiltInTemplate,
+  getBuiltInTemplatesByCategory,
+  // Registry
+  createInMemoryStorage,
+  createLocalStorage,
+  createTemplateRegistry,
+  createInMemoryRegistry,
+  createLocalStorageRegistry,
+  getDefaultRegistry,
+  resetDefaultRegistry,
+  // Apply functions
+  templateFieldToCanvasField,
+  applyTemplate,
+  canvasStateToTemplate,
+  mergeTemplateIntoCanvas,
+  validateTemplate,
+} from "./templates";
+export type {
+  TemplateSelectorProps,
+  TemplateCategory,
+  TemplateMetadata,
+  FormTemplate,
+  TemplateField,
+  TemplateSelectEvent,
+  TemplateSaveEvent,
+  TemplateDeleteEvent,
+  TemplateApplyResult,
+  TemplateStorage,
+  TemplateRegistry,
+} from "./templates";
+
 // Types and utilities
 export {
   // Schemas for runtime validation

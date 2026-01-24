@@ -78,6 +78,47 @@ export type {
   SchemaImportErrorEvent,
 } from "./designer";
 
+// Form Templates (PZ-106)
+export {
+  TemplateSelector,
+  useTemplateSelector,
+  // Built-in templates
+  generalApplicationTemplate,
+  raidRecruitmentTemplate,
+  casualJoinTemplate,
+  builtInTemplates,
+  getBuiltInTemplate,
+  getBuiltInTemplatesByCategory,
+  // Registry
+  createInMemoryStorage,
+  createLocalStorage,
+  createTemplateRegistry,
+  createInMemoryRegistry,
+  createLocalStorageRegistry,
+  getDefaultRegistry,
+  resetDefaultRegistry,
+  // Apply functions
+  templateFieldToCanvasField,
+  applyTemplate,
+  canvasStateToTemplate,
+  mergeTemplateIntoCanvas,
+  validateTemplate,
+} from "./designer";
+
+export type {
+  TemplateSelectorProps,
+  TemplateCategory,
+  TemplateMetadata,
+  FormTemplate,
+  TemplateField,
+  TemplateSelectEvent,
+  TemplateSaveEvent,
+  TemplateDeleteEvent,
+  TemplateApplyResult,
+  TemplateStorage,
+  TemplateRegistry,
+} from "./designer";
+
 // Placeholder - full designer to be completed in Phase 2
 export function FormDesigner(): never {
   throw new Error("Not implemented - see PZ-100: https://github.com/ezmode-games/phantom-zone/issues/34");
