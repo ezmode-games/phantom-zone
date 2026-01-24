@@ -183,7 +183,7 @@ export function createFormPersistence(
   };
 
   // Create debounced save
-  const { debounced: debouncedSave, cancel, flush, hasPending } = createSaveDebounce(
+  const { debounced: debouncedSave, cancel, flush } = createSaveDebounce(
     (data: Record<string, unknown>) => {
       saveCoreSync(data);
     },

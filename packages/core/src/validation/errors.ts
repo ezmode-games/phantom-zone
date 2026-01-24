@@ -2,7 +2,7 @@
  * Validation error utilities for parsing Zod errors into gaming-friendly displays.
  */
 
-import { transformErrorMessage, getFieldLabel } from "./messages";
+import { transformErrorMessage } from "./messages";
 import type {
   FieldValidationError,
   ValidationErrors,

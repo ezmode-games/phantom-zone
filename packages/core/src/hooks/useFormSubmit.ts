@@ -10,7 +10,7 @@
  * - Callback hooks for custom logic
  */
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ValidationErrors, ZodIssueInfo } from "../validation/types";
 import { createEmptyValidationErrors, createValidationErrors } from "../validation/errors";
 
@@ -204,13 +204,24 @@ function isRetryable(
 
 /**
  * Create a timeout promise that rejects after the specified duration.
+ *
+ * Note: We attach an internal no-op catch handler so that if this promise
+ * is used in a Promise.race and loses (i.e., the other branch resolves first),
+ * the eventual rejection does not surface as an unhandled rejection.
  */
 function createTimeoutPromise(ms: number): Promise<never> {
-  return new Promise((_, reject) => {
+  const timeoutPromise = new Promise<never>((_, reject) => {
     setTimeout(() => {
       reject(new Error(`Operation timed out after ${ms}ms`));
     }, ms);
   });
+
+  // Ensure the rejection is always handled to avoid unhandled rejection warnings
+  timeoutPromise.catch(() => {
+    // Intentionally swallow - timeout was not the winner of the race
+  });
+
+  return timeoutPromise;
 }
 
 /**
@@ -375,14 +386,14 @@ export function useFormSubmit<TData, TResult>(
     }
   }, []);
 
-  // Track mounted state
-  useState(() => {
+  // Track mounted state and cleanup on unmount
+  useEffect(() => {
     isMountedRef.current = true;
     return () => {
       isMountedRef.current = false;
       clearSuccessResetTimeout();
     };
-  });
+  }, [clearSuccessResetTimeout]);
 
   // Schedule success reset
   const scheduleSuccessReset = useCallback(() => {
@@ -423,6 +434,11 @@ export function useFormSubmit<TData, TResult>(
       submitData: TData,
       attempt: number
     ): Promise<SubmissionResult<TResult>> => {
+      // Track attempt for debugging/observability
+      if (process.env.NODE_ENV === "development") {
+        // eslint-disable-next-line no-console
+        console.debug?.(`[useFormSubmit] Executing submission attempt ${attempt}`);
+      }
       try {
         // Race against timeout
         const result = await Promise.race([
