@@ -81,18 +81,15 @@ export function PropertyEditor({
 
   // Local state for form values (allows editing before commit)
   const [localValues, setLocalValues] = useState<Record<string, unknown>>({});
-  const [initialized, setInitialized] = useState(false);
 
   // Sync local values with selected block props
   useEffect(() => {
     if (selectedBlock) {
       // Cast to Record<string, unknown> since BlockProps extends an interface
       setLocalValues(selectedBlock.props as Record<string, unknown>);
-      setInitialized(true);
       clearErrors();
     } else {
       setLocalValues({});
-      setInitialized(false);
       clearErrors();
     }
   }, [selectedBlock?.id]);

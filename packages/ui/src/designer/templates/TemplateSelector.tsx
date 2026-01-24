@@ -21,7 +21,7 @@ import {
 import type { CanvasState } from "../types";
 import { applyTemplate, canvasStateToTemplate } from "./apply";
 import { builtInTemplates } from "./builtin";
-import { getDefaultRegistry, createInMemoryRegistry } from "./registry";
+import { getDefaultRegistry } from "./registry";
 import type {
   FormTemplate,
   TemplateCategory,
@@ -290,6 +290,7 @@ function TemplatePreview({ template, onApply, onClose }: TemplatePreviewProps) {
     <aside
       data-testid="template-preview"
       role="dialog"
+      aria-modal="true"
       aria-label={`Preview of ${template.metadata.name}`}
     >
       <header data-testid="preview-header">

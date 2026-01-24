@@ -6,7 +6,7 @@
  */
 
 import { atom, computed, type ReadableAtom, type WritableAtom } from "nanostores";
-import { $document, $selectedBlockId, findBlockById, findBlockIndex, findParentBlock } from "../../model/document";
+import { $document, findBlockById } from "../../model/document";
 import type { Block } from "../../model/types";
 import { getComponentBlockRegistry } from "../../registry/blocks";
 import type { BaseComponentBlockDefinition } from "../../registry/types";

@@ -6,7 +6,7 @@
  */
 
 import { describe, it, expect, vi } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { FormField } from "../../../src/components/property-editor/FormField";
 import type { FieldMeta, FieldError } from "../../../src/components/property-editor/types";

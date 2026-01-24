@@ -19,7 +19,6 @@ import {
   useContext,
   useEffect,
 } from "react";
-import { z } from "zod";
 
 import type { CanvasField, CanvasState } from "./types";
 
@@ -336,9 +335,11 @@ interface FieldInputProps {
 }
 
 function TextFieldInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const stringValue = value as string ?? "";
+  const stringValue = (value ?? "") as string;
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -351,16 +352,18 @@ function TextFieldInput({ field, value, onChange, error, disabled }: FieldInputP
         placeholder={field.placeholder ?? `Enter ${field.label.toLowerCase()}`}
         disabled={disabled}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       />
     </div>
   );
 }
 
 function TextAreaInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const stringValue = value as string ?? "";
+  const stringValue = (value ?? "") as string;
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -373,16 +376,19 @@ function TextAreaInput({ field, value, onChange, error, disabled }: FieldInputPr
         disabled={disabled}
         rows={3}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       />
     </div>
   );
 }
 
 function NumberFieldInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const numberValue = value as number | null ?? "";
+  // Convert null to empty string for the input value
+  const numberValue = value === null || value === undefined ? "" : (value as number);
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -398,16 +404,18 @@ function NumberFieldInput({ field, value, onChange, error, disabled }: FieldInpu
         placeholder={field.placeholder ?? "Enter a number"}
         disabled={disabled}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       />
     </div>
   );
 }
 
 function CheckboxInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const boolValue = value as boolean ?? false;
+  const boolValue = (value ?? false) as boolean;
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -420,7 +428,7 @@ function CheckboxInput({ field, value, onChange, error, disabled }: FieldInputPr
           onChange={(e) => onChange(e.target.checked)}
           disabled={disabled}
           aria-invalid={!!error}
-          aria-describedby={error ? errorId : undefined}
+          aria-describedby={describedBy}
         />
         {field.label}
       </label>
@@ -429,9 +437,11 @@ function CheckboxInput({ field, value, onChange, error, disabled }: FieldInputPr
 }
 
 function SelectInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const stringValue = value as string ?? "";
+  const stringValue = (value ?? "") as string;
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -442,7 +452,7 @@ function SelectInput({ field, value, onChange, error, disabled }: FieldInputProp
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       >
         <option value="">{field.placeholder ?? "Select an option"}</option>
         {field.options?.map((option) => (
@@ -456,9 +466,11 @@ function SelectInput({ field, value, onChange, error, disabled }: FieldInputProp
 }
 
 function MultiSelectInput({ field, value, onChange, error, disabled }: FieldInputProps) {
-  const arrayValue = value as string[] ?? [];
+  const arrayValue = (value ?? []) as string[];
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   const handleChange = useCallback(
     (optionValue: string, checked: boolean) => {
@@ -476,7 +488,7 @@ function MultiSelectInput({ field, value, onChange, error, disabled }: FieldInpu
       role="group"
       aria-labelledby={`preview-label-${field.id}`}
       aria-invalid={!!error}
-      aria-describedby={error ? errorId : undefined}
+      aria-describedby={describedBy}
     >
       {field.options?.map((option) => (
         <label
@@ -510,6 +522,8 @@ function DateInput({ field, value, onChange, error, disabled }: FieldInputProps)
 
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   return (
     <div data-testid={`preview-input-container-${field.id}`}>
@@ -524,7 +538,7 @@ function DateInput({ field, value, onChange, error, disabled }: FieldInputProps)
         }}
         disabled={disabled}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       />
     </div>
   );
@@ -533,6 +547,8 @@ function DateInput({ field, value, onChange, error, disabled }: FieldInputProps)
 function FileInput({ field, value, onChange, error, disabled }: FieldInputProps) {
   const inputId = `preview-field-${field.id}`;
   const errorId = `${inputId}-error`;
+  const helpId = `${inputId}-help`;
+  const describedBy = [error ? errorId : null, field.helpText ? helpId : null].filter(Boolean).join(" ") || undefined;
 
   // Get file name(s) for display
   let displayText = "No file selected";
@@ -557,9 +573,9 @@ function FileInput({ field, value, onChange, error, disabled }: FieldInputProps)
           }
         }}
         disabled={disabled}
-        multiple={field.config?.multiple as boolean ?? false}
+        multiple={(field.config?.multiple ?? false) as boolean}
         aria-invalid={!!error}
-        aria-describedby={error ? errorId : undefined}
+        aria-describedby={describedBy}
       />
       <span data-testid={`preview-file-display-${field.id}`}>{displayText}</span>
     </div>
@@ -575,7 +591,7 @@ interface FormPreviewFieldProps {
 }
 
 function FormPreviewField({ field }: FormPreviewFieldProps) {
-  const { values, errors, onValueChange, getFieldError } = usePreview();
+  const { values, onValueChange, getFieldError } = usePreview();
 
   const value = values[field.id];
   const error = getFieldError(field.id);
