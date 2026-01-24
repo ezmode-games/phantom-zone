@@ -393,6 +393,40 @@ export {
   shouldHandleHistoryKeyboardEvent,
 } from "./history";
 
+// Block Sidebar (PZ-206)
+export {
+  // Components
+  BlockSidebar,
+  BlockItem,
+  CategorySection,
+  SearchInput,
+  RecentlyUsedSection,
+  // Types
+  type BlockSidebarProps,
+  type BlockItemProps,
+  type CategorySectionProps,
+  type SearchInputProps,
+  type RecentlyUsedSectionProps,
+  type GroupedBlocks,
+  // State atoms
+  $recentlyUsedBlocks,
+  $sidebarSearchQuery,
+  $collapsedCategories,
+  $hasSearch,
+  // State actions
+  addToRecentlyUsed,
+  clearRecentlyUsed,
+  setSearchQuery,
+  clearSearchQuery,
+  toggleCategory,
+  isCategoryCollapsed,
+  expandAllCategories,
+  collapseAllCategories,
+  resetSidebarState,
+  // Constants
+  MAX_RECENTLY_USED,
+} from "./components";
+
 // Placeholder - to be implemented in Phase 2
 export function BlockEditor(): never {
   throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
