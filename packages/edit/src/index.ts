@@ -342,6 +342,57 @@ export {
   useDragState,
 } from "./dnd";
 
+// Undo/Redo History (PZ-210)
+export {
+  // Types
+  type HistoryEntry as HistoryStackEntry,
+  type HistoryError,
+  type HistoryErrorCode,
+  type HistoryFlags,
+  type HistoryKeyboardAction,
+  type HistoryKeyboardConfig,
+  type HistoryResult,
+  type HistoryState,
+  // Constants
+  HISTORY_LIMIT,
+  // Utility functions
+  canRedo,
+  canUndo,
+  createHistoryError,
+  createInitialHistoryState,
+  getRedoDescription,
+  getUndoDescription,
+  // State atoms
+  $history,
+  $canRedo,
+  $canUndo,
+  $currentHistoryIndex,
+  $historySize,
+  $isBatching,
+  $redoDescription,
+  $undoDescription,
+  resetHistoryState,
+  // Actions
+  batchChanges,
+  clearHistory,
+  commitBatch,
+  getRedoSnapshot,
+  getUndoSnapshot,
+  initializeHistory,
+  pushHistory,
+  redo,
+  rollbackBatch,
+  startBatch,
+  undo,
+  // Keyboard handling
+  createHistoryKeyboardHandler,
+  defaultHistoryKeyboardConfig,
+  executeHistoryKeyboardAction,
+  handleHistoryKeyboardEvent,
+  parseHistoryKeyboardEvent,
+  shouldHandleHistoryKeyboardEvent,
+} from "./history";
+
 // Placeholder - to be implemented in Phase 2
 export function BlockEditor(): never {
   throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
