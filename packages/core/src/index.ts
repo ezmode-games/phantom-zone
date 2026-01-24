@@ -95,3 +95,136 @@ export type {
   ValidationRuleRegistry,
   ZodSchemaTransformer,
 } from "./registry";
+
+// Validation Error Display (PZ-004)
+export {
+  // Error message transformers
+  tooSmallTransformer,
+  tooBigTransformer,
+  invalidTypeTransformer,
+  invalidStringTransformer,
+  invalidEnumTransformer,
+  invalidLiteralTransformer,
+  customTransformer,
+  invalidUnionTransformer,
+  invalidDateTransformer,
+  notMultipleOfTransformer,
+  notFiniteTransformer,
+  invalidIntersectionTransformer,
+  unrecognizedKeysTransformer,
+  defaultMessageTransformers,
+  transformErrorMessage,
+  getFieldLabel,
+  // Error utilities
+  createEmptyValidationErrors,
+  createValidationErrors,
+  createFieldError,
+  parseZodError,
+  zodIssueToFieldError,
+  pathToString,
+  mergeValidationErrors,
+  addErrorToValidation,
+  clearFieldFromValidation,
+} from "./validation";
+
+// Validation Error Components (PZ-004)
+export {
+  FieldError,
+  ErrorSummary,
+  useValidationErrors,
+  getFieldErrorProps,
+} from "./components/ValidationErrors";
+
+export type {
+  // Validation error types
+  FieldValidationError,
+  ValidationErrors,
+  FieldErrorProps,
+  ErrorSummaryProps,
+  ParseErrorsOptions,
+  ErrorMessageTransformer,
+  ZodIssueInfo,
+  ValidationErrorsState,
+  ScrollToErrorOptions,
+} from "./validation";
+
+export type { UseValidationErrorsOptions } from "./components/ValidationErrors";
+
+// Layout Engine (PZ-003)
+export {
+  // Layout computation
+  computeLayout,
+  evaluateCondition,
+  evaluateVisibilityRules,
+  // Layout utilities
+  createDefaultLayout,
+  createTwoColumnLayout,
+  createFieldGroup,
+  mergeLayouts,
+  getVisibleFieldIds,
+  isFieldVisible,
+  // Zod schemas
+  LayoutTypeSchema,
+  FieldWidthSchema,
+  ComparisonOperatorSchema,
+  VisibilityConditionSchema,
+  LogicalOperatorSchema,
+  ConditionGroupSchema,
+  VisibilityRulesSchema,
+  FieldLayoutSchema,
+  FieldGroupSchema,
+  FormLayoutSchema,
+} from "./layout";
+
+export type {
+  // Layout types
+  LayoutType,
+  FieldWidth,
+  ComparisonOperator,
+  VisibilityCondition,
+  LogicalOperator,
+  ConditionGroup,
+  VisibilityRules,
+  FieldLayout,
+  FieldGroup,
+  FormLayout,
+  // Computed layout types
+  ComputedFieldLayout,
+  ComputedFieldGroup,
+  ComputedFormLayout,
+  FormValues,
+  ComputeLayoutOptions,
+} from "./layout";
+
+// State Persistence (PZ-005)
+export {
+  // Persistence factory
+  createFormPersistence,
+  createMemoryStorageAdapter,
+  // Schemas
+  PersistenceConfigSchema,
+  StoredFormStateSchema,
+  createPersistenceError,
+  // React hooks
+  useFormPersistence,
+  useFormPersistenceHandler,
+  useHasPersistedData,
+} from "./persistence";
+
+export type {
+  // Persistence types
+  ClearResult,
+  CreateFormPersistenceOptions,
+  FormPersistence,
+  PersistenceConfig,
+  PersistenceConfigInput,
+  PersistenceError,
+  PersistenceErrorCode,
+  R2BackupFunction,
+  RestoreResult,
+  SaveResult,
+  StorageAdapter,
+  StoredFormState,
+  UseFormPersistenceOptions,
+  UseFormPersistenceReturn,
+} from "./persistence";
