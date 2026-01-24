@@ -19,6 +19,18 @@ export type {
   RuleCategory,
 } from "./Palette";
 
+// Property Editor component and hook (PZ-102)
+export { PropertyEditor, usePropertyEditor } from "./PropertyEditor";
+export type {
+  PropertyEditorProps,
+  FieldPropertyValues,
+  FieldPropertyChangeEvent,
+  RuleAddEvent,
+  RuleRemoveEvent,
+  RuleConfigChangeEvent,
+  RuleReorderEvent,
+} from "./PropertyEditor";
+
 // Types and utilities
 export {
   // Schemas for runtime validation
