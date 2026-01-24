@@ -63,6 +63,25 @@ export type {
   VisibilityIndicatorProps,
 } from "./ConditionalLogic";
 
+// Form Settings component and hook (PZ-104)
+export {
+  FormSettings,
+  useFormSettings,
+  // Factory functions
+  createDefaultFormSettings,
+  // Validation utilities
+  validateEmail,
+  validateUrl,
+  validateFormSettings,
+} from "./FormSettings";
+export type {
+  FormSettingsProps,
+  FormSettingsData,
+  FormSettingsChangeEvent,
+  FormSettingsValidationError,
+  FormStatus,
+} from "./FormSettings";
+
 // Types and utilities
 export {
   // Schemas for runtime validation
