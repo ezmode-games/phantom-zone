@@ -82,6 +82,38 @@ export type {
   FormStatus,
 } from "./FormSettings";
 
+// Export/Import component and utilities (PZ-105)
+export {
+  ExportImport,
+  useExportImport,
+  // Export functions
+  exportSchema,
+  serializeSchema,
+  downloadSchema,
+  // Import/validation functions
+  validateSchema,
+  schemaToCanvasState,
+  // Version utilities
+  compareVersions,
+  isVersionSupported,
+  // Schemas
+  ExportMetadataSchema,
+  ExportedFormSchema,
+  ExportableSchemaSchema,
+  // Constants
+  SCHEMA_VERSION,
+  MIN_SUPPORTED_VERSION,
+} from "./ExportImport";
+export type {
+  ExportImportProps,
+  ExportableSchema,
+  ExportMetadata,
+  SchemaValidationResult,
+  SchemaValidationError,
+  SchemaImportEvent,
+  SchemaImportErrorEvent,
+} from "./ExportImport";
+
 // Types and utilities
 export {
   // Schemas for runtime validation
