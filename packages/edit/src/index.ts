@@ -261,6 +261,87 @@ export {
   shouldHandleKeyboardEvent,
 } from "./selection";
 
+// Drag and Drop (PZ-209)
+export {
+  // Types
+  type DragSource,
+  type DragItem,
+  type DropPosition,
+  type DropTarget,
+  type DragPoint,
+  type DragStatus,
+  type DragState,
+  type DragOperation,
+  type DropValidationContext,
+  type DropValidationResult,
+  type DragErrorCode,
+  type DragError,
+  type DragResult,
+  type DropZoneConfig,
+  type HitTestResult,
+  type UseDragBlockOptions,
+  type UseDragBlockReturn,
+  type UseDragSidebarOptions,
+  type UseDragSidebarReturn,
+  type UseDropTargetOptions,
+  type UseDropTargetReturn,
+  type UseRootDropZoneOptions,
+  type UseRootDropZoneReturn,
+  // Factory functions
+  createDragError,
+  createInitialDragState,
+  // Type guards
+  isDragging,
+  isDropping,
+  isDocumentDrag,
+  isSidebarDrag,
+  // Constants
+  DEFAULT_DROP_ZONE_CONFIG,
+  // Schemas
+  DragPointSchema,
+  DragSourceSchema,
+  DragStatusSchema,
+  DropPositionSchema,
+  DropTargetSchema,
+  // State atoms
+  $dragState,
+  $dragStatus,
+  $isDragging,
+  $isDropping,
+  $dragItem,
+  $dropTarget,
+  $pointerPosition,
+  $isTouch,
+  $hasValidDropTarget,
+  $draggedBlock,
+  $draggedBlockType,
+  $targetBlock,
+  $targetParentBlock,
+  // State utilities
+  isBlockBeingDragged,
+  isBlockDropTarget,
+  getBlockDropPosition,
+  getBlockDragInfo,
+  resetDragState,
+  getDragStateSnapshot,
+  // Actions
+  startDocumentDrag,
+  startSidebarDrag,
+  updateDrag,
+  endDrag,
+  cancelDrag,
+  computeDropTarget,
+  computeRootDropTarget,
+  validateDrop,
+  wouldCreateCircularReference,
+  // Hooks
+  useDragBlock,
+  useDragSidebar,
+  useDropTarget,
+  useRootDropZone,
+  useDragState,
+} from "./dnd";
+
 // Placeholder - to be implemented in Phase 2
 export function BlockEditor(): never {
   throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
