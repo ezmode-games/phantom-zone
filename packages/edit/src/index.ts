@@ -427,6 +427,46 @@ export {
   MAX_RECENTLY_USED,
 } from "./components";
 
+// Block Property Editor (PZ-208)
+export {
+  // Components
+  PropertyEditor,
+  FormField,
+  ActionButtons,
+  // Types
+  type ActionButtonsProps,
+  type FieldError,
+  type FieldMeta,
+  type FieldType,
+  type FormFieldProps,
+  type PropertyEditorProps,
+  type PropertyEditorState,
+  type SchemaParseResult,
+  type SelectOption,
+  type ValidationResult,
+  // State atoms
+  $propertyEditorSelectedBlock,
+  $blockDefinition,
+  $fieldMeta,
+  $showPropertyEditor,
+  $canMoveUp,
+  $canMoveDown,
+  $validationErrors,
+  $hasErrors,
+  $propertyEditorState,
+  // State utilities
+  getFieldErrors,
+  hasFieldError,
+  setErrors,
+  clearErrors,
+  markTouched,
+  resetPropertyEditorState,
+  // Schema utilities
+  parseSchema,
+  validateProps,
+  keyToLabel,
+} from "./components";
+
 // Placeholder - to be implemented in Phase 2
 export function BlockEditor(): never {
   throw new Error("Not implemented - see PZ-200: https://github.com/ezmode-games/phantom-zone/issues/41");
