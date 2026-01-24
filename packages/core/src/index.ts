@@ -13,15 +13,44 @@
 
 export const VERSION = "0.0.1";
 
-// Placeholder exports - to be implemented in Phase 1
-export type InputType = "text" | "number" | "email" | "url" | "date" | "checkbox" | "select" | "radio" | "textarea";
+// Input Registry (PZ-001)
+export {
+  // Registry factory and utilities
+  createDefaultInputRegistry,
+  createInputRegistry,
+  getInputRegistry,
+  resetGlobalRegistry,
+  // Default input definitions
+  checkboxDefinition,
+  datePickerDefinition,
+  defaultInputDefinitions,
+  fileUploadDefinition,
+  multiSelectDefinition,
+  numberInputDefinition,
+  selectDefinition,
+  textAreaDefinition,
+  textInputDefinition,
+} from "./registry";
 
-export interface InputRegistryEntry {
-  type: InputType;
-  component: React.ComponentType<unknown>;
-}
-
-// Will be implemented in PZ-001
-export function registerInput(_entry: InputRegistryEntry): never {
-  throw new Error("Not implemented - see PZ-001: https://github.com/ezmode-games/phantom-zone/issues/26");
-}
+export type {
+  // Core types
+  AcceptedFile,
+  BaseInputDefinition,
+  BaseInputProps,
+  InputProps,
+  InputRegistry,
+  InputTypeId,
+  InputValue,
+  SelectOption,
+  TypedInputDefinition,
+  ValidationRuleId,
+  // Input-specific prop types
+  CheckboxProps,
+  DatePickerProps,
+  FileUploadProps,
+  MultiSelectProps,
+  NumberInputProps,
+  SelectProps,
+  TextAreaProps,
+  TextInputProps,
+} from "./registry";
