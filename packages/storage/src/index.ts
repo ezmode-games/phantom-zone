@@ -6,7 +6,7 @@
  * - Schema storage service (PZ-301)
  * - Content storage service (PZ-302)
  * - Response storage service (PZ-303)
- * - Asset storage service (PZ-304) - TODO
+ * - Asset storage service (PZ-304)
  */
 
 export const VERSION = "0.0.1";
@@ -45,6 +45,18 @@ export {
   type CreateResponseInput,
   type UpdateStatusInput,
 } from "./response-storage";
+
+// Asset Storage Service (PZ-304)
+export {
+  AssetStorageService,
+  createAssetStorageService,
+  type AssetStorageError,
+  type AssetStorageErrorCode,
+  type UploadAssetResult,
+  type UploadAssetInput,
+  type ListAssetsOptions,
+  type ListAssetsResult,
+} from "./asset-storage";
 
 // Types
 export type {
@@ -85,6 +97,11 @@ export type {
   ResponseListOptions,
   ResponseListResult,
   ResponseStorageConfig,
+  // Asset Storage Types (PZ-304)
+  AssetType,
+  AssetMetadata,
+  StoredAssetInfo,
+  AssetStorageConfig,
 } from "./types";
 
 // Type utilities and schemas
@@ -105,4 +122,8 @@ export {
   // Response Storage Schemas
   ResponseStatusSchema,
   FormResponseSchema,
+  // Asset Storage Schemas
+  AssetTypeSchema,
+  AssetMetadataSchema,
+  StoredAssetInfoSchema,
 } from "./types";

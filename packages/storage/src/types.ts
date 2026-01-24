@@ -355,3 +355,70 @@ export interface ResponseStorageConfig {
   /** Optional prefix for all response paths (defaults to empty) */
   pathPrefix?: string;
 }
+
+// Asset Storage Types (PZ-304)
+
+/**
+ * Asset type categories
+ */
+export const AssetTypeSchema = z.enum(["image", "document", "video", "audio", "other"]);
+
+export type AssetType = z.infer<typeof AssetTypeSchema>;
+
+/**
+ * Metadata stored alongside each asset
+ */
+export const AssetMetadataSchema = z.object({
+  /** The guild this asset belongs to */
+  guildId: z.string().min(1),
+  /** The unique asset ID */
+  assetId: z.string().min(1),
+  /** Asset type category */
+  assetType: AssetTypeSchema,
+  /** Content type (MIME type) */
+  contentType: z.string().min(1),
+  /** Timestamp when uploaded */
+  uploadedAt: z.coerce.date(),
+  /** Optional original filename */
+  filename: z.string().optional(),
+  /** Optional uploader ID */
+  uploaderId: z.string().optional(),
+});
+
+export type AssetMetadata = z.infer<typeof AssetMetadataSchema>;
+
+/**
+ * Information about a stored asset
+ */
+export const StoredAssetInfoSchema = z.object({
+  /** The unique asset ID */
+  assetId: z.string().min(1),
+  /** Asset type category */
+  assetType: AssetTypeSchema,
+  /** R2 key where asset is stored */
+  key: z.string(),
+  /** Size in bytes */
+  size: z.number().int().nonnegative(),
+  /** Content type (MIME type) */
+  contentType: z.string(),
+  /** Timestamp when uploaded */
+  uploadedAt: z.coerce.date(),
+  /** R2 etag */
+  etag: z.string(),
+  /** Optional original filename */
+  filename: z.string().optional(),
+  /** Optional uploader ID */
+  uploaderId: z.string().optional(),
+});
+
+export type StoredAssetInfo = z.infer<typeof StoredAssetInfoSchema>;
+
+/**
+ * Configuration for AssetStorageService
+ */
+export interface AssetStorageConfig {
+  /** Optional prefix for all asset paths (defaults to empty) */
+  pathPrefix?: string;
+  /** Maximum file size in bytes (defaults to 50MB) */
+  maxFileSizeBytes?: number;
+}

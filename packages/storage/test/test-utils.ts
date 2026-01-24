@@ -25,7 +25,7 @@ export function createMockObject(
     customMetadata?: Record<string, string>;
   },
 ): MockR2ObjectBody {
-  const text = JSON.stringify(value);
+  const text = typeof value === "string" ? value : JSON.stringify(value);
   const encoder = new TextEncoder();
   const data = encoder.encode(text);
 
@@ -53,19 +53,37 @@ export function createMockBucket() {
 
   const bucket: R2Bucket = {
     put: vi.fn(async (key: string, value: unknown, options?: R2PutOptions) => {
-      const text =
-        typeof value === "string"
-          ? value
-          : value instanceof ArrayBuffer
-            ? new TextDecoder().decode(value)
-            : value instanceof Uint8Array
-              ? new TextDecoder().decode(value)
-              : String(value);
+      let text: string;
+      let size: number;
 
-      const obj = createMockObject(key, JSON.parse(text), {
+      if (typeof value === "string") {
+        text = value;
+        size = new TextEncoder().encode(text).length;
+      } else if (value instanceof ArrayBuffer) {
+        text = new TextDecoder().decode(value);
+        size = value.byteLength;
+      } else if (value instanceof Uint8Array) {
+        text = new TextDecoder().decode(value);
+        size = value.length;
+      } else {
+        text = String(value);
+        size = new TextEncoder().encode(text).length;
+      }
+
+      // Try to parse as JSON for regular objects, otherwise store raw
+      let storedValue: unknown;
+      try {
+        storedValue = JSON.parse(text);
+      } catch {
+        storedValue = text;
+      }
+
+      const obj = createMockObject(key, storedValue, {
         httpMetadata: options?.httpMetadata,
         customMetadata: options?.customMetadata,
       });
+      // Override size for accurate tracking
+      obj.size = size;
       storage.set(key, obj);
       return {
         key: obj.key,
