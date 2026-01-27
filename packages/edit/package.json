@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@phantom-zone/core": "workspace:*",
-    "@rafters/ui": "link:../../../rafters/packages/ui"
+    "@rafters/ui": "workspace:*"
   },
   "devDependencies": {
     "@testing-library/react": "^16.0.0",
