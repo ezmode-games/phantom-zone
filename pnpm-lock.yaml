@@ -35,9 +35,6 @@ importers:
       '@phantom-zone/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@phantom-zone/edit':
-        specifier: workspace:*
-        version: link:../../packages/edit
       '@phantom-zone/storage':
         specifier: workspace:*
         version: link:../../packages/storage
