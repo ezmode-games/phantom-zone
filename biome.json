@@ -41,15 +41,7 @@
     "indentWidth": 2
   },
   "files": {
-    "includes": [
-      "src/**",
-      "test/**",
-      "packages/*/src/**",
-      "packages/*/test/**",
-      "apps/*/src/**",
-      "*.ts",
-      "*.json"
-    ]
+    "includes": ["src/**", "test/**", "*.ts", "*.json"]
   },
   "assist": {
     "actions": {
