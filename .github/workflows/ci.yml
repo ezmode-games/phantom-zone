@@ -18,7 +18,10 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ezmode-games/rafters
-          path: ../rafters
+          path: .rafters
+
+      - name: Link rafters for workspace resolution
+        run: ln -s "$GITHUB_WORKSPACE/.rafters" "$GITHUB_WORKSPACE/../rafters"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
